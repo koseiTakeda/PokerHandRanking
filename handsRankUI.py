@@ -36,8 +36,7 @@ class CardListItem(handsRank.Card, QtWidgets.QListWidgetItem):
         QtWidgets.QListWidgetItem.__init__(self, *args, **kwargs)
 
         # Set all necessary attributes that come from the base class if they're present
-        self.colors = otherNode.colors if otherNode else ""
-        self.cardRanks = otherNode.cardRanks if otherNode else ""
+        self.CARDRANKS = otherNode.CARDRANKS if otherNode else ""
         self.color = otherNode.color if otherNode else ""
         self.colorNum = otherNode.colorNum if otherNode else ""
         self.cardRank = otherNode.cardRank if otherNode else ""
@@ -126,23 +125,23 @@ def handRankText(num):
     text = ""
     if num == 10:
         text = "10. Your highest card is your actual hand"
-    if num == 9:
+    elif num == 9:
         text = "9. Congratulation, you have a Single pair!"
-    if num == 8:
+    elif num == 8:
         text = "8. Congratulation, you have Two pair!"
-    if num == 7:
+    elif num == 7:
         text = "7. Congratulation, you have Three of a kind!"
-    if num == 6:
+    elif num == 6:
         text = "6. Congratulation, you have a Straight!"
-    if num == 5:
+    elif num == 5:
         text = "5. Congratulation, you have a Flush!!"
-    if num == 4:
+    elif num == 4:
         text = "4. Wow! Congratulation, you have a Full House!!"
-    if num == 3:
+    elif num == 3:
         text = "3. Wow! Congratulation, you have 4 of a Kind!!!"
-    if num == 2:
+    elif num == 2:
         text = "2. AMAZING!! you have a Straight Flush!"
-    if num == 1:
+    elif num == 1:
         text = "1. CONGRATULATION! You have A Royal Flush!! you WIN!"
     return text
 
@@ -176,7 +175,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.colorListWidget.addItem(ColorListItem(name="Clubs", colorBackground="Red", colorText="white"))
 
         listCard = handsRank.Card()
-        for cardRank in listCard.cardRanks:
+        for cardRank in listCard.CARDRANKS:
             self.numberCardListWidget.addItem(ColorListItem(name=str(cardRank)))
 
         # connecting ui buttons
@@ -221,14 +220,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.hands_label.setText(" ")
             return
 
-        deckRank = handsRank.rank(
-            self.allHandCards[0],
-            self.allHandCards[1],
-            self.allHandCards[2],
-            self.allHandCards[3],
-            self.allHandCards[4],
-        )
-
+        deckRank = handsRank.rank(self.allHandCards)
         self.ui.hands_label.setText(handRankText(deckRank))
 
 
